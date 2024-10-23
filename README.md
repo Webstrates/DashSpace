@@ -1,7 +1,7 @@
 # DashSpace
 
 <p align="center">
-  <img src="docs/title.jpg" />
+    <img src="docs/title.jpg" />
 </p>
 
 
@@ -43,8 +43,15 @@ DashSpace is a research prototype and as such not optimized for performance. Esp
 
 ## Attribution
 
+### Models
+
 DashSpace uses the following models from Sketchfab:
 
 - [Quest 3](https://sketchfab.com/3d-models/quest-3-e5c334a9598c4e85bb182eebf15a2e32) by Redcodi
 - [Action Camera - Low Poly](https://sketchfab.com/3d-models/action-camera-low-poly-b28bfbdfc62644beacf1e3c2c3423477) by xylvnking
 - [Smartphone (Xperia Z Ultra) (School Project)](https://sketchfab.com/3d-models/smartphone-xperia-z-ultra-school-project-18a917d8619441b1ba46da856e43c43f) by Ole Gunnar Isager
+
+
+### Vega-Lite Examples
+
+Some of the example specifications and datasets that are included in the prototype version of DashSpace are taken or adapted from the [Vega-Lite example gallery](https://vega.github.io/vega-lite/examples/).
