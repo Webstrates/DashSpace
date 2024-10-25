@@ -66,6 +66,8 @@ DashSpace uses the following models from Sketchfab:
 - [Action Camera - Low Poly](https://sketchfab.com/3d-models/action-camera-low-poly-b28bfbdfc62644beacf1e3c2c3423477) by xylvnking
 - [Smartphone (Xperia Z Ultra) (School Project)](https://sketchfab.com/3d-models/smartphone-xperia-z-ultra-school-project-18a917d8619441b1ba46da856e43c43f) by Ole Gunnar Isager
 
+The Meta Quest controller models were obtained from the [WebXR Input Profiles](https://github.com/immersive-web/webxr-input-profiles) repository.
+
 
 ### Vega-Lite Examples
 
