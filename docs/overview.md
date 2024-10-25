@@ -13,6 +13,11 @@ This folder includes multiple Varv actions and triggers that are used by DashSpa
 This folder includes all Varv concept definitions used by DashSpace.
 
 
+## Setup
+
+This folder includes the `Modules Loader`, which sets up the JavaScript modules and registers them in the `window` object, and the `React Reloader`, which loads the React components and reloads them when there are code changes to them or the Varv runtime.
+
+
 ## Libs
 
 This folder includes the Optomancy and Optomancy R3F libraries.

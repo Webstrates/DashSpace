@@ -1,0 +1,100 @@
+ {
+    "concepts": {
+        "MovableManager": {
+            "actions": {
+                "instantiateVisComponent": {
+                    "when": { "customJSTrigger": "instantiateVisComponent" },
+                    "then": [
+                        { "run": "unselectMovable" },
+                        { "run": "dragEnd" },
+                        { "new": {
+                            "concept": "VisComponent",
+                            "with": {
+                                "type": "$componentType",
+                                "fragmentId": "$fragmentId",
+                                "content": "$content",
+                                "snippetType": "$snippetType",
+                                "positionX": "$positionX",
+                                "positionY": "$positionY",
+                                "positionZ": "$positionZ",
+                                "selected": true
+                            }
+                        }},
+                        "dragStart"
+                    ]
+                },
+                "instantiateVisualization": {
+                    "when": { "customJSTrigger": "instantiateVisualization" },
+                    "then": [
+                        { "run": "unselectMovable" },
+                        { "run": "dragEnd" },
+                        { "new": {
+                            "concept": "Visualization",
+                            "with": {
+                                "type": "$visualizationType",
+                                "positionX": "$positionX",
+                                "positionY": "$positionY",
+                                "positionZ": "$positionZ",
+                                "selected": true
+                            }
+                        }},
+                        "dragStart"
+                    ]
+                }
+            }
+        },
+        "VisShelf": {
+            "schema": {
+                "type": { "string": { "default": "visualizations" }},
+                "selectedParent": "string"
+            },
+            "actions": {
+                "onMoved": {}
+            },
+            "extensions": {
+                "inject": [ "Movable" ]
+            }
+        },
+        "Trashcan": {
+            "schema": {
+                "placeholder": "string"
+            },
+            "actions": {
+                "onMoved": {},
+                "emptyTrash": {
+                    "when": { "action": "dragEnd" },
+                    "then": [
+                        { "select": {
+                            "concept": "Movable",
+                            "where": {
+                                "property": "selected",
+                                "equals": true
+                             },
+                            "stopIfEmpty": true,
+                            "keepContext": true
+                        }},
+                        { "select": "Trashcan" },
+                        { "movablesInRange": {
+                            "otherMovables": "$select",
+                            "maxDistance": 0.2
+                        }},
+                        { "select": {
+                            "target": "$movablesInRange",
+                            "forEach": true
+                        }},
+                        { "get": "concept::name" },
+                        { "where": {
+                            "variable": "get",
+                            "unequals": "Trashcan",
+                            "stopIfEmpty": true
+                        }},
+                        "remove"
+                    ]
+                }
+            },
+            "extensions": {
+                "inject": [ "Movable" ]
+            }
+        }
+    }
+}

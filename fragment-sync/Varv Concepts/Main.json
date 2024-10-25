@@ -1,0 +1,130 @@
+{
+    "concepts": {
+        "DashManager": {
+            "schema": {
+                "placeholder": "string"
+            },
+            "actions": {
+                "createObject": {
+                    "when": { "customJSTrigger": "createObject" },
+                    "then": [
+                        { "devicePosition": { "device": "$device", "distance": 0.5 }},
+                        { "deviceRotation": { "device": "$device" }},
+                        { "new": {
+                            "concept": "$concept",
+                            "with": {
+                                "positionX": "$devPosX",
+                                "positionY": "$devPosY",
+                                "positionZ": "$devPosZ",
+                                "rotationX": "$devRotX",
+                                "rotationY": "$devRotY",
+                                "rotationZ": "$devRotZ"
+                            }
+                        }}
+                    ]
+                },
+                "imageUploaded": {
+                    "when": { "customJSTrigger": "imageUploaded" },
+                    "then": [
+                        { "devicePosition": { "device": "camera", "distance": 0.5 }},
+                        { "deviceRotation": { "device": "camera" }},
+                        { "new": {
+                            "concept": "Image",
+                            "with": {
+                                "url": "$fileName",
+                                "positionX": "$devPosX",
+                                "positionY": "$devPosY",
+                                "positionZ": "$devPosZ",
+                                "rotationX": "$devRotX",
+                                "rotationY": "$devRotY",
+                                "rotationZ": "$devRotZ"
+                            }
+                        }}
+                    ]
+                },
+                "mergeComponents": {
+                    "when": { "customJSTrigger": "mergeComponents" },
+                    "then": [
+                        { "select": {
+                            "concept": "VisComponent",
+                            "where": { "and": [
+                                { "property": "selected", "equals": true },
+                                { "or": [
+                                    { "property": "type", "equals": "spec" },
+                                    { "property": "type", "equals": "specSnippet" }
+                                ]}
+                            ]},
+                            "stopIfEmpty": true
+                        }},
+                        { "get": { "property": "type", "as": "type" }},
+                        { "get": { "property": "fragmentId", "as": "fragmentId" }},
+                        { "get": { "property": "content", "as": "content" }},
+                        { "get": { "property": "snippetType", "as": "snippetType" }},
+                        { "get": { "property": "positionY", "as": "positionY" }},
+                        { "customJSBulk": "mergeComponentsInScene" },
+                        { "run": "unselectMovable" },
+                        { "devicePosition": { "device": "$device", "distance": 0.5 }},
+                        { "deviceRotation": { "device": "$device" }},
+                        { "new": {
+                            "concept": "VisComponent",
+                            "with": {
+                                "type": "spec",
+                                "fragmentId": "$newFragmentId",
+                                "positionX": "$devPosX",
+                                "positionY": "$devPosY",
+                                "positionZ": "$devPosZ",
+                                "rotationX": "$devRotX",
+                                "rotationY": "$devRotY",
+                                "rotationZ": "$devRotZ"
+                            }
+                        }}
+                    ]
+                }
+            }
+        },
+        "ScreenStream": {
+            "schema": {
+                "client": "string"
+            },
+            "actions":{
+                "onMoved": {}
+            },
+            "extensions": {
+                "inject": [ "Movable" ]
+            }
+        },
+        "VideoStream": {
+            "schema": {
+                "client": "string"
+            }
+        },
+        "AudioStream": {
+            "schema": {
+                "client": "string",
+                "muted": "boolean"
+            }
+        },
+        "StickyNote": {
+            "schema": {
+                "text": "string"
+            },
+            "actions":{
+                "onMoved": {}
+            },
+            "extensions": {
+                "inject": [ "Movable" ]
+            }
+        },
+        "Image": {
+            "schema": {
+                "url": "string"
+            },
+            "actions":{
+                "onMoved": {}
+            },
+            "extensions": {
+                "inject": [ "Movable" ]
+            }
+        }
+    }
+}

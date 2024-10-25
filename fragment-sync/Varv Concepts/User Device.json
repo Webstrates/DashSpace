@@ -1,0 +1,93 @@
+{
+    "concepts": {
+        "UserDevice": {
+            "schema": {
+                "type": {
+                    "string":{
+                        "default": "camera",
+                        "enum": [ "camera", "controllerLeft", "controllerRight" ]
+                    }
+                },
+                "userAgent": "string",
+                "client": "string",
+                "clientVideoStream": { "array": {
+                    "items": "VideoStream",
+                    "derive": {
+                        "concepts": [ "VideoStream" ],
+                        "properties": [ "client" ],
+                        "transform": [
+                            { "get": { "property": "client", "as": "client" }},
+                            { "select": {
+                                "concept": "VideoStream",
+                                "where": { "property": "client", "equals": "$client" },
+                                "keepContext": true
+                            }}
+                        ]
+                    }
+                }},
+                "user": "string",
+                "isMine": "boolean",
+                "position": { "array": {
+                    "items": "number",
+                    "default": [ 0, 0, 0 ]
+                }},
+                "rotation": { "array": {
+                    "items": "number",
+                    "default": [ 0, 0, 0 ]
+                }},
+                "remoteControlled": "boolean",
+                "remoteControllingClient": "string"
+            },
+            "actions": {
+                "signalLocation": {
+                    "when": { "interval": 100 },
+                    "then": [
+                        { "customJSBulk": "checkUserDevicesDisabled" },
+                        { "select": {
+                            "concept": "UserDevice",
+                            "where": { "and": [
+                                { "property": "isMine", "equals": true },
+                                { "property": "remoteControlled", "equals": false }
+                            ]},
+                            "stopIfEmpty": true
+                        }},
+                        { "get": { "property": "type", "as": "type" }},
+                        { "devicePosition": { "device": "$type" }},
+                        { "deviceRotation": { "device": "$type" }},
+                        { "set": { "position": [ "$devPosX$", "$devPosY$", "$devPosZ$" ] }},
+                        { "set": { "rotation": [ "$devRotX$", "$devRotY$", "$devRotZ$" ] }},
+                        { "get": "UserManager.localUserName" },
+                        { "set": { "user": "$get" }}
+                    ]
+                },
+                "signalRemoteLocation": {
+                    "when": { "interval": 100 },
+                    "then": [
+                        { "customJSBulk": "checkUserDevicesDisabled" },
+                        "webstrateClient",
+                        { "select": {
+                            "concept": "UserDevice",
+                            "where": { "and": [
+                                { "property": "isMine", "equals": false },
+                                { "property": "remoteControlled", "equals": true },
+                                { "property": "remoteControllingClient", "equals": "$webstrateClient" }
+                            ]},
+                            "stopIfEmpty": true
+                        }},
+                        { "devicePosition": { "device": "controllerRight", "distance": 0.1 }},
+                        { "deviceRotation": { "device": "controllerRight" }},
+                        { "set": { "position": [ "$devPosX$", "$devPosY$", "$devPosZ$" ] }},
+                        { "set": { "rotation": [ "$devRotX$", "$devRotY$", "$devRotZ$" ] }}
+                    ]
+                }
+            },
+            "defaultMappings": [ "signaling", "memory", "cauldron" ],
+            "mappings": {
+                "isMine": [ "memory", "cauldron" ]
+            }
+        }
+    },
+    "dataStores": {
+        "signaling": { "type": "signaling" }
+    }
+}

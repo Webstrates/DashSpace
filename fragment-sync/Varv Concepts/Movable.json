@@ -1,0 +1,146 @@
+{
+    "concepts": {
+        "Movable": {
+            "schema": {
+                "positionX": "number",
+                "positionY": { "number": { "default": 1.5 }},
+                "positionZ": "number",
+                "rotationX": "number",
+                "rotationY": "number",
+                "rotationZ": "number",
+                "scale": { "number": { "default": 1 }},
+                "selected": "boolean",
+                "hovered": "boolean",
+                "beingDragged": { "boolean": {
+                    "derive": {
+                        "properties": [ "selected", "MovableManager.dragging" ],
+                        "transform": [
+                            { "get": { "property": "MovableManager.dragging", "as": "dragging" }},
+                            { "eval": { "and": [
+                                { "property": "selected", "equals": true },
+                                { "variable": "dragging", "equals": true }
+                            ]}}
+                        ]
+                    }
+                }}
+            },
+            "mappings": {
+                "selected": [ "memory", "cauldron" ],
+                "hovered": [ "memory", "cauldron" ]
+            }
+        },
+        "MovableManager": {
+            "schema": {
+                "multiSelect": "boolean",
+                "dragging": "boolean",
+                "draggingDevice": "string",
+                "presentationMode": "boolean"
+            },
+            "actions": {
+                "selectMovable": {
+                    "when": { "customJSTrigger": "selectMovable" },
+                    "then": [
+                        { "select": { "target": "$uuid" }},
+                        { "run": "dragEnd" },
+                        { "run": "unselectMovableIfSingleSelect" },
+                        { "set": { "selected": true }}
+                    ]
+                },
+                "deselectMovable": {
+                    "when": { "customJSTrigger": "deselectMovable" },
+                    "then": [
+                        { "where": {
+                            "property": "multiSelect",
+                            "equals": false,
+                            "stopIfEmpty": true
+                        }},
+                        { "select": { "target": "$uuid" }},
+                        { "set": { "selected": false }}
+                    ]
+                },
+                "unselectMovableIfSingleSelect": [
+                    { "where": {
+                        "property": "multiSelect",
+                        "equals": false,
+                        "stopIfEmpty": true
+                    }},
+                    "unselectMovable"
+                ],
+                "unselectMovable": {
+                    "when": { "customJSTrigger": "unselectMovable" },
+                    "then": [
+                        { "select": "Movable" },
+                        { "set": { "selected": false }}
+                    ]
+                },
+                "selectSelectedMovable": [
+                    { "select": {
+                        "concept": "Movable",
+                        "where": { "and": [
+                            { "property": "selected", "equals": true }
+                        ]},
+                        "stopIfEmpty": true
+                    }}
+                ],
+                "cloneMovable": {
+                    "when": { "customJSTrigger": "cloneMovable" },
+                    "then": [
+                        "selectSelectedMovable",
+                        { "set": { "selected": false }},
+                        "clone",
+                        { "get": "positionY" },
+                        { "set": { "positionY": { "calculate": "$get$ + 0.2" }}},
+                        { "set": { "selected": true }}
+                    ]
+                },
+                "deleteMovable": {
+                    "when": { "customJSTrigger": "deleteMovable" },
+                    "then": [
+                        "selectSelectedMovable",
+                        "remove"
+                    ]
+                },
+                "deleteAllMovables": {
+                    "when": { "customJSTrigger": "deleteAllMovables" },
+                    "then": [
+                        { "select": "Movable" },
+                        "remove"
+                    ]
+                },
+                "dragStart": {
+                    "when": { "customJSTrigger": "dragStart" },
+                    "then": [
+                        { "select": "MovableManager" },
+                        { "where": {
+                            "property": "dragging",
+                            "equals": false,
+                            "stopIfEmpty": true
+                        }},
+                        { "set": { "draggingDevice": "$device" }},
+                        "selectSelectedMovable",
+                        { "set": { "dragging": true }}
+                    ]
+                },
+                "dragEnd": {
+                    "when": [
+                        { "customJSTrigger": "dragEnd" }
+                    ],
+                    "then": [
+                        { "select": "MovableManager" },
+                        { "where": {
+                            "property": "dragging",
+                            "equals": true,
+                            "stopIfEmpty": true
+                        }},
+                        { "set": { "dragging": false }}
+                    ]
+                }
+            },
+            "mappings": {
+                "multiSelect": [ "memory", "cauldron" ],
+                "dragging": [ "memory", "cauldron" ],
+                "draggingDevice": [ "memory", "cauldron" ]
+            }
+        }
+    }
+}

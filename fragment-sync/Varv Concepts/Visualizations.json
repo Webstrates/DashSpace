@@ -1,0 +1,110 @@
+{
+    "concepts": {
+        "Visualization": {
+            "schema": {
+                "type": { "string": {
+                    "default": "vegaLite_25D",
+                    "enum": [ "vegaLite_2D", "vegaLite_25D", "optomancy", "d3" ]
+                }},
+                "visComponents": { "array": "VisComponent" }
+            },
+            "actions": {
+                "onMoved": { "then": [
+                    "updateComponents"
+                ]},
+                "updateComponents": [
+                    { "get": "type" },
+                    { "run": "updateComponentsForVegaLite2D" },
+                    { "run": "updateComponentsForVegaLite25D" },
+                    { "run": "updateComponentsForOptomancy" },
+                    { "run": "updateComponentsForD3" }
+                ],
+                "updateComponentsForVegaLite2D": [
+                    { "where": {
+                        "variable": "get",
+                        "equals": "vegaLite_2D",
+                        "stopIfEmpty": true
+                    }},
+                    { "select": {
+                        "concept": "VisComponent",
+                        "where": { "or": [
+                            { "property": "type", "equals": "spec" },
+                            { "property": "type", "equals": "dataset" },
+                            { "property": "type", "equals": "specSnippet" }
+                        ]},
+                        "stopIfEmpty": true,
+                        "keepContext": true
+                    }},
+                    "updateComponentsByProximity"
+                ],
+                "updateComponentsForVegaLite25D": [
+                    { "where": {
+                        "variable": "get",
+                        "equals": "vegaLite_25D",
+                        "stopIfEmpty": true
+                    }},
+                    { "select": {
+                        "concept": "VisComponent",
+                        "where": { "or": [
+                            { "property": "type", "equals": "spec" },
+                            { "property": "type", "equals": "dataset" },
+                            { "property": "type", "equals": "specSnippet" }
+                        ]},
+                        "stopIfEmpty": true,
+                        "keepContext": true
+                    }},
+                    "updateComponentsByProximity"
+                ],
+                "updateComponentsForOptomancy": [
+                    { "where": {
+                        "variable": "get",
+                        "equals": "optomancy",
+                        "stopIfEmpty": true
+                    }},
+                    { "select": {
+                        "concept": "VisComponent",
+                        "where": { "or": [
+                            { "property": "type", "equals": "spec" },
+                            { "property": "type", "equals": "dataset" },
+                            { "property": "type", "equals": "specSnippet" }
+                        ]},
+                        "stopIfEmpty": true,
+                        "keepContext": true
+                    }},
+                    "updateComponentsByProximity"
+                ],
+                "updateComponentsForD3": [
+                    { "where": {
+                        "variable": "get",
+                        "equals": "d3",
+                        "stopIfEmpty": true
+                    }},
+                    { "select": {
+                        "concept": "VisComponent",
+                        "where": { "or": [
+                            { "property": "type", "equals": "dataset" },
+                            { "property": "type", "equals": "d3Spec" }
+                        ]},
+                        "stopIfEmpty": true,
+                        "keepContext": true
+                    }},
+                    "updateComponentsByProximity"
+                ],
+                "updateComponentsByProximity": [
+                    { "movablesInRange": {
+                        "otherMovables": "$select"
+                    }},
+                    { "where": {
+                        "property": "visComponents",
+                        "unequals": "$movablesInRange",
+                        "stopIfEmpty": true
+                    }},
+                    { "set": { "visComponents": "$movablesInRange" }}
+                ]
+            },
+            "extensions": {
+                "inject": [ "Movable" ]
+            }
+        }
+    }
+}

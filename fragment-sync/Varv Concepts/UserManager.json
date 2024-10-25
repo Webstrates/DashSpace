@@ -1,0 +1,84 @@
+{
+    "concepts": {
+        "UserManager": {
+            "schema": {
+                "placeholder": "string",
+                "loggedIn": "boolean",
+                "localUser": { "User": { "default": "concept6059cf8e0f9f49750a98" }},
+                "localUserName": { "string": {
+                    "derive": {
+                        "properties": [ "localUser", "User.name" ],
+                        "transform": [
+                            { "select": { "property": "UserManager.localUser" }},
+                            { "get": "name" }
+                        ]
+                    }
+                }}
+            },
+            "mappings": {
+                "loggedIn": [ "memory", "cauldron" ],
+                "localUser": [ "memory", "cauldron" ]
+            },
+            "actions": {
+                "addUser": {
+                    "when": { "click": { "view": "addUserButton" }},
+                    "then": [
+                        "random",
+                        { "new": {
+                            "concept": "User",
+                            "with": {
+                                "name": "User $random$"
+                            }
+                        }},
+                        { "set": { "UserManager.localUser": "$target" }}
+                    ]
+                },
+                "deleteUser": {
+                    "when": { "click": { "view": "deleteUserButton" }},
+                    "then": [
+                        { "get": "UserManager.localUser" },
+                        { "where": {
+                            "variable": "get",
+                            "unequals": "concept6059cf8e0f9f49750a98",
+                            "stopIfEmpty": true
+                        }},
+                        { "set": { "localUser": "concept6059cf8e0f9f49750a98" }},
+                        { "select": "$get" },
+                        "remove"
+                    ]
+                },
+                "selectUser": {
+                    "when": { "click": "User" },
+                    "then": [
+                        { "set": { "localUser": "$target" }}
+                    ]
+                },
+                "login": {
+                    "when": { "click": { "view": "loginButton" }},
+                    "then": [
+                        { "set": { "loggedIn": true }}
+                    ]
+                }
+            }
+        },
+        "User": {
+            "schema": {
+                "name": "string",
+                "local": { "boolean": {
+                    "derive": {
+                        "properties": [ "UserManager.localUser" ],
+                        "transform": [
+                            { "eval": {
+                                "property": "UserManager.localUser",
+                                "equals": "$target"
+                            }}
+                        ]
+                    }
+                }}
+            },
+            "mappings": {
+                "local": [ "memory", "cauldron" ]
+            }
+        }
+    }
+}

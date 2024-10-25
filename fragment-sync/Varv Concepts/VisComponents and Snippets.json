@@ -1,0 +1,103 @@
+{
+    "concepts": {
+        "VisComponent": {
+            "schema": {
+                "type": { "string": {
+                    "default": "spec",
+                    "enum": [ "spec", "dataset", "d3Spec", "specSnippet" ]
+                }},
+                "fragmentId": "string",
+                "content": "string",
+                "snippetParent": "string",
+                "snippetType": "string"
+            },
+            "actions": {
+                "onMoved": { "then": [
+                    { "run": "updateNearbyVisualizations" },
+                    { "run": "updateVisualizationsWithThis" }
+                ]},
+                "updateNearbyVisualizations": [
+                    { "get": "type" },
+                    { "run": "updateNearbyVisualizationsWithSpecs" },
+                    { "run": "updateNearbyVisualizationsWithDatasets" },
+                    { "run": "updateNearbyVisualizationsWithD3Specs" }
+                ],
+                "updateNearbyVisualizationsWithSpecs": [
+                    { "where": {
+                        "or": [
+                            { "property": "type", "equals": "spec" },
+                            { "property": "type", "equals": "specSnippet" }
+                        ],
+                        "stopIfEmpty": true
+                    }},
+                    { "select": {
+                        "concept": "Visualization",
+                        "where": { "or": [
+                            { "property": "type", "equals": "vegaLite_2D" },
+                            { "property": "type", "equals": "vegaLite_25D" },
+                            { "property": "type", "equals": "optomancy" }
+                        ]},
+                        "stopIfEmpty": true,
+                        "keepContext": true,
+                        "forEach": true
+                    }},
+                    "updateNearbyVisualizationsInProximity"
+                ],
+                "updateNearbyVisualizationsWithDatasets": [
+                    { "where": {
+                        "property": "type",
+                        "equals": "dataset",
+                        "stopIfEmpty": true
+                    }},
+                    { "select": {
+                        "concept": "Visualization",
+                        "stopIfEmpty": true,
+                        "keepContext": true,
+                        "forEach": true
+                    }},
+                    "updateNearbyVisualizationsInProximity"
+                ],
+                "updateNearbyVisualizationsWithD3Specs": [
+                    { "where": {
+                        "property": "type",
+                        "equals": "d3Spec",
+                        "stopIfEmpty": true
+                    }},
+                    { "select": {
+                        "concept": "Visualization",
+                        "where": { "property": "type", "equals": "d3" },
+                        "stopIfEmpty": true,
+                        "keepContext": true,
+                        "forEach": true
+                    }},
+                    "updateNearbyVisualizationsInProximity"
+                ],
+                "updateNearbyVisualizationsInProximity": [
+                    { "movablesInRange": {
+                        "otherMovables": "$select"
+                    }},
+                    { "select": {
+                        "target": "$movablesInRange",
+                        "stopIfEmpty": true
+                    }},
+                    "updateComponents"
+                ],
+                "updateVisualizationsWithThis": {
+                    "then": [
+                        { "storeSelection": "this" },
+                        { "select": {
+                            "concept": "Visualization",
+                            "stopIfEmpty": true,
+                            "where": { "property": "visComponents", "includesAll": "$this" },
+                            "forEach": true
+                        }},
+                        "updateComponents"
+                    ]
+                }
+            },
+            "extensions": {
+                "inject": [ "Movable" ]
+            }
+        }
+    }
+}
