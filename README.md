@@ -38,7 +38,22 @@ Find the documentation in the [docs](docs) folder.
 
 ## Known Bugs and Limitations
 
-DashSpace is a research prototype and as such not optimized for performance. Especially in scene with many elements the performance can drop on devices such as the Meta Quest 3.
+### Performance
+
+DashSpace is a research prototype and as such not optimized for performance. Especially in scene with many elements the performance can drop on slower devices.
+
+With the v67 update of Meta Quest 3 OS and browser, performance detiorated considerably. We are unaware what caused this issue. We recommend using the `?dud=true` [URL parameter](docs/url-options.md) to disable avatars on the Meta Quest 2, 3, and Pro headsets.
+
+
+
+### Stability
+
+On the Meta Quest 3 and Pro headsets, we encountered crashes when switching between controllers and hand-tracking.
+
+
+### Compatibility
+
+We tested DashSpace on desktop (Windows, macOS) with a variety of browsers (Chrome, Edge, Safari), on Android using Chrome, and on the Meta Quest 3 and Pro headsets. On the Apple Vision Pro headset, WebXR does not yet support AR, but VR works with some rendering bugs.
 
 
 ## Attribution
