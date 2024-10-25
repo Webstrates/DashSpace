@@ -1,7 +1,7 @@
 # DashSpace
 
 <p align="center">
-    <img src="docs/title.jpg" />
+    <a href="https://demo.webstrates.net/new?prototypeUrl=https://github.com/Webstrates/DashSpace/raw/main/prototypes/dash-space.zip" target="_blank"><img src="docs/title.jpg" /></a>
 </p>
 
 
