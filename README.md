@@ -72,3 +72,16 @@ The Meta Quest controller models were obtained from the [WebXR Input Profiles](h
 ### Vega-Lite Examples
 
 Some of the example specifications and datasets that are included in the prototype version of DashSpace are taken or adapted from the [Vega-Lite example gallery](https://vega.github.io/vega-lite/examples/).
+
+
+## Citation
+
+```bibtex
+@article{DashSpace2025,
+    author    = {Borowski, Marcel and Butcher, Peter W. S. and Kristensen, Janus Bager and Petersen, Jonas Oxenbøll and Ritsos, Panagiotis D. and Klokmose, Clemens N. and Elmqvist, Niklas},
+    title     = {DashSpace: A Live Collaborative Platform for Immersive and Ubiquitous Analytics},
+    year      = {2025},
+    journal   = {IEEE Transactions on Visualization and Computer Graphics},
+    publisher = {IEEE Computer Society}
+}
+```
