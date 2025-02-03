@@ -82,6 +82,7 @@ Some of the example specifications and datasets that are included in the prototy
     title     = {DashSpace: A Live Collaborative Platform for Immersive and Ubiquitous Analytics},
     year      = {2025},
     journal   = {IEEE Transactions on Visualization and Computer Graphics},
-    publisher = {IEEE Computer Society}
+    publisher = {IEEE Computer Society},
+    doi       = {10.1109/TVCG.2025.3537679}
 }
 ```
