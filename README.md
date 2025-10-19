@@ -1,5 +1,8 @@
 # DashSpace
 
+> [!WARNING]
+> This repository contains the first iteration of DashSpace that was released in the 2025 TVCG paper linked [below](#citation) and is no longer maintained. The updated and modularized version of DashSpace is part of the [Spatialstrates repository](https://github.com/Webstrates/Spatialstrates).
+
 <p align="center">
     <a href="https://demo.webstrates.net/new?prototypeUrl=https://github.com/Webstrates/DashSpace/raw/main/prototypes/dash-space.zip" target="_blank"><img src="docs/title.jpg" /></a>
 </p>
