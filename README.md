@@ -79,6 +79,13 @@ Some of the example specifications and datasets that are included in the prototy
 
 ## Citation
 
+[IEEE Xplore](https://doi.org/10.1109/TVCG.2025.3537679) · [Preprint PDF](https://pure.au.dk/ws/portalfiles/portal/418542389/TVCG_2025_DashSpace_Draft.pdf) · [Video Figure](https://www.youtube.com/watch?v=kyK20t7da8Q)
+
+<details>
+<summary><b>Abstract</b></summary>
+We introduce DashSpace, a live collaborative immersive and ubiquitous analytics (IA/UA) platform designed for handheld and head-mounted Augmented/Extended Reality (AR/XR) implemented using WebXR and open standards. To bridge the gap between existing web-based visualizations and the immersive analytics setting, DashSpace supports visualizing both legacy D3 and Vega-Lite visualizations on 2D planes, and extruding Vega-Lite specifications into 2.5D. It also supports fully 3D visual representations using the Optomancy grammar. To facilitate authoring new visualizations in immersive XR, the platform provides a visual authoring mechanism where the user groups specification snippets to construct visualizations dynamically. The approach is fully persistent and collaborative, allowing multiple participants—whose presence is shown using 3D avatars and webcam feeds—to interact with the shared space synchronously, both co-located and remotely. We present three examples of DashSpace in action: immersive data analysis in 3D space, synchronous collaboration, and immersive data presentations.
+</details>
+
 ```bibtex
 @article{DashSpace2025,
     author    = {Borowski, Marcel and Butcher, Peter W. S. and Kristensen, Janus Bager and Petersen, Jonas Oxenbøll and Ritsos, Panagiotis D. and Klokmose, Clemens N. and Elmqvist, Niklas},
